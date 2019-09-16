@@ -1,6 +1,7 @@
 # Taskmaster
 
 ## [Deployed Endpoint](http://taskmasterbackend-env.yzch9c73jx.us-west-2.elasticbeanstalk.com/api/v1/tasks)
+## [Deployed Frontend]( http://taskmasterrenee.s3-website-us-west-2.amazonaws.com)
 
 ### Available Routes
 * GET: `/api/v1/tasks` - returns all tasks from the db in `json` format.
