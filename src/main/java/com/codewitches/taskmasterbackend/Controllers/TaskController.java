@@ -2,11 +2,12 @@ package com.codewitches.taskmasterbackend.Controllers;
 
 import com.codewitches.taskmasterbackend.Models.HistoryObj;
 import com.codewitches.taskmasterbackend.Models.Task;
+import com.codewitches.taskmasterbackend.Repository.S3Client;
 import com.codewitches.taskmasterbackend.Repository.TaskRepository;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
+import org.springframework.web.multipart.MultipartFile;
 import java.util.List;
 
 @RestController
@@ -16,6 +17,18 @@ public class TaskController {
 
     @Autowired
     TaskRepository taskRepository;
+
+    private S3Client s3Client;
+
+    @Autowired
+    TaskController(S3Client s3Client) {
+        this.s3Client = s3Client;
+    }
+
+    @GetMapping("/")
+    public String getHome() {
+        return "landingPage";
+    }
 
     @GetMapping("/tasks")
     public List<Task> getTasks() {
@@ -33,6 +46,15 @@ public class TaskController {
         return newTask;
     }
 
+    @PostMapping("/tasks/{id}/image")
+    public Task addImageToTask(@PathVariable String id, @RequestPart(value = "file") MultipartFile file) {
+        String pic = this.s3Client.uploadFile(file);
+        Task t = taskRepository.findById(id).get();
+        t.setImage(pic);
+        taskRepository.save(t);
+        return t;
+    }
+
     @PutMapping("/tasks/{id}/state")
     public Task updateTaskStatus (@PathVariable String id) {
         Task taskToUpdate = taskRepository.findById(id).get();
@@ -48,6 +70,13 @@ public class TaskController {
         taskToUpdate.addHistory(new HistoryObj("--> " + taskToUpdate.getStatus()));
         taskRepository.save(taskToUpdate);
         return taskToUpdate;
+    }
+
+    @DeleteMapping("/tasks/{id}")
+    public Task deleteTaskStatus(@PathVariable String id) {
+        Task taskToDelete = taskRepository.findById(id).get();
+        taskRepository.delete(taskToDelete);
+        return taskToDelete;
     }
 
     @GetMapping("/users/{name}/tasks")

@@ -1,14 +1,16 @@
 package com.codewitches.taskmasterbackend.Models;
 
+import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBDocument;
+
 import java.util.Date;
 
+@DynamoDBDocument
 public class HistoryObj {
     String time;
     String action;
 
     public HistoryObj(String action){
         this.action = action;
-        Date date = new Date();
         this.time = new Date(System.currentTimeMillis()).toString();
     }
 
