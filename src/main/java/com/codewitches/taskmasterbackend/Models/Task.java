@@ -18,12 +18,12 @@ public class Task {
     private String image;
     private ArrayList<HistoryObj> history;
 
-    public Task(String title, String description) {
-        this.title = title;
-        this.description = description;
-        this.history = new ArrayList<>();
-
-    }
+//    public Task(String title, String description) {
+//        this.title = title;
+//        this.description = description;
+//        this.history = new ArrayList<>();
+//
+//    }
     public Task() {}
 
     // ---------------- Getters & Setters ----------------
