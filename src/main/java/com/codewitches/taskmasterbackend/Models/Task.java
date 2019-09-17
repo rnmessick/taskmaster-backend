@@ -6,6 +6,7 @@ import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBHashKey;
 import com.amazonaws.services.dynamodbv2.datamodeling.DynamoDBTable;
 
 import java.util.ArrayList;
+import java.util.Date;
 
 @DynamoDBTable(tableName = "taskmaster")
 public class Task {
@@ -18,13 +19,14 @@ public class Task {
     private String image;
     private ArrayList<HistoryObj> history;
 
-//    public Task(String title, String description) {
-//        this.title = title;
-//        this.description = description;
-//        this.history = new ArrayList<>();
-//
-//    }
     public Task() {}
+
+    public Task(String title, String description) {
+        this.title = title;
+        this.description = description;
+        this.history = new ArrayList<>();
+
+    }
 
     // ---------------- Getters & Setters ----------------
 
@@ -88,7 +90,8 @@ public class Task {
 
     // ---------------- Methods ----------------
 
-    public void addHistory(HistoryObj historyObj) {
+    public void addHistory() {
+        HistoryObj historyObj = new HistoryObj(new Date().toString(), this.status);
         this.history.add(historyObj);
     }
 

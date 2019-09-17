@@ -9,12 +9,12 @@ public class HistoryObj {
     String time;
     String action;
 
-    public HistoryObj(String action){
-        this.action = action;
-        this.time = new Date(System.currentTimeMillis()).toString();
-    }
-
     public HistoryObj(){}
+
+    public HistoryObj(String time, String action){
+        this.action = action;
+        this.time = time;
+    }
 
     public String getTime() {
         return time;

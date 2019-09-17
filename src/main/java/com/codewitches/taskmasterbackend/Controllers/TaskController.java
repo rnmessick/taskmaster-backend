@@ -31,7 +31,7 @@ public class TaskController {
     }
 
     @GetMapping("/tasks")
-    public List<Task> getTasks() {
+    public List getTasks() {
         return (List) taskRepository.findAll();
     }
 
@@ -41,7 +41,7 @@ public class TaskController {
         newTask.setTitle(task.getTitle());
         newTask.setDescription(task.getDescription());
         newTask.setStatus("Available");
-        newTask.addHistory(new HistoryObj(newTask.getStatus()));
+        newTask.addHistory();
         taskRepository.save(newTask);
         return newTask;
     }
@@ -67,7 +67,7 @@ public class TaskController {
         } else if (taskToUpdate.getStatus().equals("Finished")) {
             return taskToUpdate;
         }
-        taskToUpdate.addHistory(new HistoryObj("--> " + taskToUpdate.getStatus()));
+        taskToUpdate.addHistory();
         taskRepository.save(taskToUpdate);
         return taskToUpdate;
     }
@@ -80,7 +80,7 @@ public class TaskController {
     }
 
     @GetMapping("/users/{name}/tasks")
-    public List<Task> getTasksByAssignee(@PathVariable String name) {
+    public List getTasksByAssignee(@PathVariable String name) {
         return (List) taskRepository.findAllByAssignee(name).get();
     }
 
@@ -89,7 +89,7 @@ public class TaskController {
         Task taskToUpdate = taskRepository.findById(id).get();
         taskToUpdate.setAssignee(assignee);
         taskToUpdate.setStatus("Assigned");
-        taskToUpdate.addHistory(new HistoryObj("--> Assigned to " + assignee));
+        taskToUpdate.addHistory();
         taskRepository.save(taskToUpdate);
         return taskToUpdate;
     }
